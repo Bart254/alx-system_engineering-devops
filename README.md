@@ -1,1 +1,2 @@
-A learning repo for scripting in shell
+Shell basics on scripting
+#!/bin/bash
