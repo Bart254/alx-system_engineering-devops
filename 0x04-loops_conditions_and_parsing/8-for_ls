@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+#This displays ls files without the '-'
+for f in * 
+do
+	if [ -f $f  ] && [ "${f:0:1}" != "." ]
+	then
+	new_f=$( echo "$f" | cut -d '-' -f 2-)
+	echo "$new_f"
+	fi
+done
