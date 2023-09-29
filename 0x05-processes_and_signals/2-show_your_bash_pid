@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #This gets a list of all running processes
 # shellcheck disable=SC2009
-processes=$(ps -ax)
-bash_processes=$(echo "$processes" | grep bash)
-echo "$bash_processes"
+p=$(ps -ax)
+b_p=$(echo "$p" | grep bash)
+echo "$b_p"
