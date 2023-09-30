@@ -1,8 +1,18 @@
 #!/usr/bin/env bash
 #The script displays the PID and its name
-pids=$(pgrep bash | cut -d' ' -f2)
-for pid in $pids
+script_pid=$$
+
+# Iterate over all process directories in /proc
+for pid_dir in /proc/[0-9]*/; 
 do
-	proc_name=$(cat /proc/"$pid"/cmdline | tr '\0' ' ')
-	echo "$pid $proc_name"
-done
+	    pid=$(basename "$pid_dir")
+		    if [ "$pid" -eq "$script_pid" ]
+		    then
+			    continue
+		    fi
+		    process_name=$(cat "$pid_dir/comm" 2>/dev/null)
+		    if [[ "$process_name" == *bash* ]];
+		    then
+			    echo "$pid $process_name"
+		    fi
+	    done
