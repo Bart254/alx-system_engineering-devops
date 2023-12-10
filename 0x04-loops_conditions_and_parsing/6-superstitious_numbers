@@ -1,6 +1,7 @@
 #!//usr/bin/env bash
 #This script prints numbers and in 4, 9, 17 prints "bad luck and country of origin"
 number=1
+
 while [ $number -le 20 ]
 do
   case $number in
