@@ -1,4 +1,4 @@
-#!//usr/bin/env bash
+#!/usr/bin/env bash
 #This script prints numbers and in 4, 9, 17 prints "bad luck and country of origin"
 number=1
 
