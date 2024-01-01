@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+#Script connects to a server using ssh with a private key in ~/.ssh/school
+identityFile="$HOME/.ssh/school"
+user="ubuntu"
+host="100.25.177.60"
+ssh -i "$identityFile" "$user@$host"
