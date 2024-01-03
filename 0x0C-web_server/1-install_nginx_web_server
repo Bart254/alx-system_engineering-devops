@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+#Installs nginx web server in my server
+#Fetch all updates
+sudo apt-get -y update
+sudo apt-get -y upgrade
+sudo apt-get -y install nginx
+#Open port 80 for server toaccept requests
+sudo ufw allow 'Nginx HTTP'
+#Change default page when request is made to nginx root
+echo "Hello World!" | sudo tee /var/www/html/index*.html
+sudo service nginx restart
