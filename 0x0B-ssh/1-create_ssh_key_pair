@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+#Creates an rsa key pair with specified bytes, identityFile and passphrase
+type="rsa"
+bytes=4096
+identityFile="school"
+passPhrase="betty"
+ssh-keygen -t $type -b $bytes -f $identityFile -N $passPhrase

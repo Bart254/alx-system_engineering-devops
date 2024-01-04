@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+#Installs nginx web server in my server
+#Fetch all updates
+sudo apt-get -y update
+#sudo apt-get -y upgrade
+sudo apt-get -y install nginx
+#Open port 80 for server toaccept requests
+sudo ufw allow 'Nginx HTTP'
+#Change default page when request is made to nginx root
+echo "Hello World!" | sudo tee /var/www/html/index*.html
+#Set the redirect
+line="location \/ {"
+line1="location \/redirect_me {"
+line2="return 301 hhtp:\/\/www.youtube.com\/watch?v=QH2-TGULwu4;"
+line3="}"
+sed -i "0,/$line/s//$line1\n\t\t$line2\n\t$line3\n\n\t$line/" /etc/nginx/sites-available/default
+sudo service nginx restart
