@@ -10,18 +10,18 @@ sudo ufw allow 'Nginx HTTP'
 echo "Hello World!" | sudo tee /var/www/html/index*.html
 #Set the redirect
 line="location \/ {"
-line1="location \/redirect_me {"
-line2="return 301 hhtp:\/\/www.youtube.com\/watch?v=QH2-TGULwu4;"
+line1="location = \/redirect_me {"
+line2="return 301 http:\/\/www.youtube.com\/watch?v=QH2-TGULwu4;"
 line3="}"
-sed -i "0,/$line/s//$line1\n\t\t$line2\n\t$line3\n\n\t$line/" /etc/nginx/sites-available/default
-#customize error page
-mkdir -p /var/www/custom_error/html
-touch /var/www/custom_error/html/error_404.html
-echo "Ceci n'est pas une page" > /var/www/custom_error/html/error_404.html
-line_tr='try_files \$uri \$uri\/ =404;'
-line4='try_files \$uri \$uri\/ \/custom_error\/html\/error_404.html;'
-line5="}"
-line6="location \/custom_error\/html {"
-line7="root \/var\/www;"
-sed -i "0,/$line_tr/s//$line4\n\t$line5\n\t$line6\n\t\t$line7/" /etc/nginx/sites-available/default
+sed -i "/^[[:space:]]*$line/i \        $line1\n\t\t$line2\n\t$line3\n" /etc/nginx/sites-available/default
+# Customize error_page
+touch /usr/share/nginx/html/custom_404.html
+echo "Ceci n'est pas une page" |sudo tee /usr/share/nginx/html/custom_404.html
+line0="# pass PHP scripts to FastCGI server"
+line4="error_page 404 \/custom_404.html;"
+line5="location = \/custom_404.html {"
+line6="root \/usr\/share\/nginx\/html;"
+line7="internal;"
+line8="}"
+sed -i "/^[[:space:]]*$line0/i \        $line4\n\t$line5\n\t\t$line6\n\t\t$line7\n\t$line8\n" /etc/nginx/sites-available/default
 sudo service nginx restart
