@@ -41,12 +41,12 @@ file { '/usr/share/nginx/html/custom_404.html':
   require => File['/etc/nginx/sites-available/default']
 }
 
-exec { 'ufw allow Nginx HTTP':
-  command => "sudo ufw allow 'Nginx HTTP'",
-  path    => ['/usr/bin', '/usr/local/bin'],
-  require => Package['nginx'],
-  before  => Service['nginx']
-}
+#exec { 'ufw allow Nginx HTTP':
+#  command => 'sudo ufw allow Nginx HTTP',
+#  path    => ['/usr/bin', '/usr/local/bin'],
+#  require => Package['nginx'],
+#  before  => Service['nginx']
+#}
 
 service { 'nginx':
   ensure => running,
