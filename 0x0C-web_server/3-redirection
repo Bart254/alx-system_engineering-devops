@@ -10,7 +10,7 @@ sudo ufw allow 'Nginx HTTP'
 echo "Hello World!" | sudo tee /var/www/html/index*.html
 #Set the redirect
 line="location \/ {"
-line1="location = \/redirect_me {"
+line1="location \/redirect_me {"
 line2="return 301 http:\/\/www.youtube.com\/watch?v=QH2-TGULwu4;"
 line3="}"
 sed -i "/^[[:space:]]*$line/i \        $line1\n\t\t$line2\n\t$line3\n" /etc/nginx/sites-available/default
