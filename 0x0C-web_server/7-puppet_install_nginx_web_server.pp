@@ -17,7 +17,7 @@ server {
 	index index.html index.htm index.nginx-debian.html;
 
 	server_name _;
-	location = /redirect_me {
+	location /redirect_me {
 		return 301 http://www.youtube.com/watch?v=QH2-TGULwu4;
 	}
 
@@ -40,13 +40,6 @@ file { '/usr/share/nginx/html/custom_404.html':
   content => "Ceci n'est pas une page\n",
   require => File['/etc/nginx/sites-available/default']
 }
-
-#exec { 'ufw allow Nginx HTTP':
-#  command => 'sudo ufw allow Nginx HTTP',
-#  path    => ['/usr/bin', '/usr/local/bin'],
-#  require => Package['nginx'],
-#  before  => Service['nginx']
-#}
 
 service { 'nginx':
   ensure => running,
