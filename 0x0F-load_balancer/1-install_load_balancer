@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+#Install HAProxy load balancer for Ubuntu 16.04
+sudo apt-get -y install --no-install-recommends software-properties-common
+sudo add-apt-repository -y ppa:vbernat/haproxy-2.0
+sudo apt-get -y install haproxy=2.0.\*
+#copy the original configuration script
+sudo cp /etc/haproxy/haproxy.cfg haproxy.cfg.orig
+#add a front end block
+line1="frontend alxfrontend"
+line2="bind *:80"
+line3="default_backend alxbackend"
+sudo sed -i "34 a$line1\n\t$line2\n\t$line3" /etc/haproxy/haproxy.cfg
+# add backend
+line1="backend alxbackend"
+line2="balance roundrobin"
+line3="server web-01 100.25.177.60:80 check"
+line4="server web-02 54.87.205.15:80 check"
+sudo sed -i "/^[[:space:]]*default_backend alxbackend/a $line1\n\t$line2\n\t$line3\n\t$line4\n" /etc/haproxy/haproxy.cfg
+#restart the service
+sudo service haproxy restart
