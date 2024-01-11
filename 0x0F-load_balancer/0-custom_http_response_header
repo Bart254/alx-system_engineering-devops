@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+#Installs nginx web server in my server
+#Fetch all updates
+sudo apt-get -y update
+#sudo apt-get -y upgrade
+sudo apt-get -y install nginx
+#Open port 80 for server toaccept requests
+sudo ufw allow 'Nginx HTTP'
+#Change default page when request is made to nginx root
+echo "Hello World!" | sudo tee /var/www/html/index*.html
+#Set the redirect
+line="location \/ {"
+header="add_header X-Served-By $HOSTNAME;"
+line1="location  \/redirect_me {"
+line2="return 301 http:\/\/www.youtube.com\/watch?v=QH2-TGULwu4;"
+line3="}"
+sed -i "/^[[:space:]]*$line/i \        $header\n\t$line1\n\t\t$line2\n\t$line3\n" /etc/nginx/sites-available/default
+# Customize error_page
+touch /usr/share/nginx/html/custom_404.html
+echo "Ceci n'est pas une page" |sudo tee /usr/share/nginx/html/custom_404.html
+line0="# pass PHP scripts to FastCGI server"
+line4="error_page 404 \/custom_404.html;"
+line5="location = \/custom_404.html {"
+line6="root \/usr\/share\/nginx\/html;"
+line7="internal;"
+line8="}"
+sed -i "/^[[:space:]]*$line0/i \        $line4\n\t$line5\n\t\t$line6\n\t\t$line7\n\t$line8\n" /etc/nginx/sites-available/default
+sudo service nginx restart
