@@ -9,12 +9,12 @@ sudo cp /etc/haproxy/haproxy.cfg haproxy.cfg.orig
 line1="frontend alxfrontend"
 line2="bind *:80"
 line3="default_backend alxbackend"
-sudo sed -i "34 a$line1\n\t$line2\n\t$line3" /etc/haproxy/haproxy.cfg
+echo -e "\n\t$line1\n\t\t$line2\n\t\t$line3" | sudo tee -a /etc/haproxy/haproxy.cfg
 # add backend
-line1="backend alxbackend"
-line2="balance roundrobin"
-line3="server web-01 100.25.177.60:80 check"
-line4="server web-02 54.87.205.15:80 check"
-sudo sed -i "/^[[:space:]]*default_backend alxbackend/a $line1\n\t$line2\n\t$line3\n\t$line4\n" /etc/haproxy/haproxy.cfg
+line4="backend alxbackend"
+line5="balance roundrobin"
+line6="server 170992-web-01 100.25.177.60:80 check"
+line7="server 170992-web-02 54.87.205.15:80 check"
+echo -e "\n\t$line4\n\t\t$line5\n\t\t$line6\n\t\t$line7" | sudo tee -a /etc/haproxy/haproxy.cfg
 #restart the service
 sudo service haproxy restart
