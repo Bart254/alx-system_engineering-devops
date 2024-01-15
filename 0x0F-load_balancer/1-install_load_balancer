@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 #Install HAProxy load balancer for Ubuntu 16.04
 sudo apt-get -y update
-sudo apt-get -y install --no-install-recommends software-properties-common
-sudo add-apt-repository -y ppa:vbernat/haproxy-2.0
-sudo apt-get -y install haproxy=2.0.\*
+sudo apt-get -y install haproxy
 #copy the original configuration script
 sudo cp /etc/haproxy/haproxy.cfg haproxy.cfg.orig
 #add a front end block
