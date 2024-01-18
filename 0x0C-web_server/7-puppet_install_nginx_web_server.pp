@@ -31,7 +31,7 @@ server {
   notify  => Service['nginx']
 }
 
-file { '/var/www/html/index.nginx-debian.html':
+file { '/var/www/html/index.html':
   ensure  => present,
   content => "Hello World!\n"
 }
