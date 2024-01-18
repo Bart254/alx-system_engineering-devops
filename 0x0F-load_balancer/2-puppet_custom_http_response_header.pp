@@ -6,7 +6,7 @@ file_line { '/etc/nginx/sites-available/default':
 }
 
 service { 'nginx':
-  enable    => true,
   ensure    => running,
+  enable    => true,
   subscribe => File_line['/etc/nginx/sites-available/default']
 }
