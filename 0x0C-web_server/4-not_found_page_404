@@ -1,27 +1,45 @@
 #!/usr/bin/env bash
 #Installs nginx web server in my server
 #Fetch all updates
-sudo apt-get -y update
-#sudo apt-get -y upgrade
-sudo apt-get -y install nginx
-#Open port 80 for server toaccept requests
-sudo ufw allow 'Nginx HTTP'
-#Change default page when request is made to nginx root
-echo "Hello World!" | sudo tee /var/www/html/index*.html
-#Set the redirect
-line="location \/ {"
-line1="location = \/redirect_me {"
-line2="return 301 http:\/\/www.youtube.com\/watch?v=QH2-TGULwu4;"
-line3="}"
-sed -i "/^[[:space:]]*$line/i \        $line1\n\t\t$line2\n\t$line3\n" /etc/nginx/sites-available/default
-# Customize error_page
+apt-get update
+apt-get -y install nginx
+
+# Open port 80 for server toaccept requests
+ufw allow 'Nginx HTTP'
+
+# Change default page when request is made to nginx root
+# Create the file
+mkdir -p /var/www/html
+touch /var/www/html/index.html
+echo "Hello World!" > /var/www/html/index.html
+line1='server {'
+line2='listen 80;'
+line3='location / {'
+line4='root /var/www/html;'
+line5='index index.html;'
+line6='}'
+line7='}'
+echo -e "$line1\n\t$line2\n\n\t$line3\n\t\t$line4\n\t\t$line5\n\t$line6\n$line7\n" > /etc/nginx/sites-available/default
+
+# Configure location /redirect_me to redirect permanently to a new page
+line1='location /redirect_me {'
+line2='return 301 https://www.youtube.com;'
+line3='}'
+sed -i "/location \/ {/i \ \t$line1\n\t\t$line2\n\t$line3\n" /etc/nginx/sites-available/default
+
+# Create a custom error page
+# Create the file
+mkdir -p /usr/share/nginx/html
 touch /usr/share/nginx/html/custom_404.html
-echo "Ceci n'est pas une page" |sudo tee /usr/share/nginx/html/custom_404.html
-line0="# pass PHP scripts to FastCGI server"
-line4="error_page 404 \/custom_404.html;"
-line5="location = \/custom_404.html {"
-line6="root \/usr\/share\/nginx\/html;"
-line7="internal;"
-line8="}"
-sed -i "/^[[:space:]]*$line0/i \        $line4\n\t$line5\n\t\t$line6\n\t\t$line7\n\t$line8\n" /etc/nginx/sites-available/default
+echo "Ceci n'est pas une page" > /usr/share/nginx/html/custom_404.html
+line1="error_page 404 /custom_404.html;"
+line2="location = /custom_404.html {"
+line3="root /usr/share/nginx/html;"
+line4="internal;"
+line5="}"
+sed -i "/location \/ {/i \ \t$line1\n\n\t$line2\n\t\t$line3\n\t\t$line4\n\t$line5\n" /etc/nginx/sites-available/default
+# Create the symbolic link sites-enabled/default if not created
+ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+
+#Restart Nginx
 sudo service nginx restart
