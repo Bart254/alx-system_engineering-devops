@@ -12,32 +12,28 @@ file { '/etc/nginx/sites-available/default':
 server {
 	listen 80 default_server;
 
-	root /var/www/html;
-
-	index index.html index.htm index.nginx-debian.html;
-
-	server_name _;
-
-	add_header X-Served-By ${::hostname};
+	add_header X-Served-By $::hostname;
 
 	location /redirect_me {
-		return 301 http://www.youtube.com/watch?v=QH2-TGULwu4;
+		return 301 https://www.youtube.com/watch?v=QH2-TGULwu4;
 	}
 
 	location / {
-		try_files \$uri \$uri/ =404;
+		root /var/www/html;
+		index index.html;
 	}
 
 	error_page 404 /custom_404.html;
- 	location = /custom_404.html {
- 		root /usr/share/nginx/html;
- 		internal;
+
+	location = /custom_404.html {
+		root /usr/share/nginx/html;
+		internal;
  	}
 }",
   notify  => Service['nginx']
 }
 
-file { '/var/www/html/index.nginx-debian.html':
+file { '/var/www/html/index.html':
   ensure  => present,
   content => "Hello World!\n"
 }
