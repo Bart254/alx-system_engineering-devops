@@ -9,7 +9,7 @@ print_sub() {
 	for address in "${subdomains[@]}"
 	do
 		full_domain="$address"."$1"
-		result=$(dig "$full_domain" +noall +answer)
+		result=$(dig +noall +answer "$full_domain")
 		record=$(echo "$result" | awk '{print$4}')
 		dest=$(echo "$result" | awk '{print$5}')
 		echo "The subdomain $address is a $record record and points to $dest"
