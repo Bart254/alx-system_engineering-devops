@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Creates a new user and prompts whoami
+if [ "$#" -eq 0 ]; then
+	exit 0
+fi
+new_user="$1"
+sudo -u "$new_user" whoami
