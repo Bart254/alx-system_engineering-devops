@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Accepts password to mysql user and generates a backup file of all databases
+if [ "$#" -ne 1 ]; then
+	exit 0
+fi
+backup_file="backup.sql"
+archive_file="$(date +'%d-%m-%Y').tar.gz"
+user="root"
+password="$1"
+mysqldump -u"$user" -p"$password" --all-databases > "$backup_file"
+tar -czf "$archive_file" "$backup_file"
