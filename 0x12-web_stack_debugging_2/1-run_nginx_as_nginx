@@ -2,8 +2,8 @@
 # runs nginx as user nginx
 sudo useradd nginx
 # install nginx
-sudo apt update
-sudo apt install nginx
+sudo -u 'nginx' apt update
+sudo -u 'nginx' apt install nginx
 #modify configuration file
 sed -i "/^user/s/.*/user nginx;/" /etc/nginx/nginx.conf
 sed -i "/listen 80 default_server;/s/.*/\tlisten 8080 default_server;/" /etc/nginx/sites-available/default
