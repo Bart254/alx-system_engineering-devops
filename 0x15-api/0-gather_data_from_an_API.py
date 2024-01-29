@@ -2,8 +2,8 @@
 """ Gathers data from Employee API
 """
 if __name__ == "__main__":
-    import sys
     import requests
+    import sys
 
     id = sys.argv[1]
     todo_values = {'userId': id}
