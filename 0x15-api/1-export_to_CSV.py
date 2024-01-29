@@ -12,7 +12,7 @@ if __name__ == "__main__":
     user_values = {'id': id}
     user_resp = requests.get('https://jsonplaceholder.typicode.com/users/',
                              params=user_values)
-    name = user_resp.json()[0]['name']
+    name = user_resp.json()[0]['username']
     csv_file = id+'.csv'
     with open(csv_file, 'a') as f:
         for dic in todo_resp.json():
