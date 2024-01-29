@@ -21,9 +21,9 @@ if __name__ == "__main__":
             todo_resp = requests.get(todo_req, params=todo_values)
             for dic in todo_resp.json():
                 new_dic = {
+                            "username": user['username'],
                             "task": dic["title"],
                             "completed": dic["completed"],
-                            "username": user['username']
                             }
                 my_dict[id].append(new_dic)
         json.dump(my_dict, f)
