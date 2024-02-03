@@ -15,7 +15,7 @@ if __name__ == "__main__":
 
     for a_dict in user_resp.json():
         if a_dict["id"] == user_id:
-            name = a_dict["name"]
+            name = a_dict["username"]
             break
 
     for todo in todo_resp.json():
