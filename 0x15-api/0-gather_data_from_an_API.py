@@ -23,6 +23,6 @@ if __name__ == "__main__":
                 complete += 1
                 completed_todos.append(todo["title"])
 
-    print(f'Employee {name} is done with todos({complete}/{total}):')
+    print(f'Employee {name} is done with tasks({complete}/{total}):')
     for title in completed_todos:
-        print(f'\t{title}')
+        print(f'\t {title}')
