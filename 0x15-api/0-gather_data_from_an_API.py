@@ -5,22 +5,24 @@ if __name__ == "__main__":
     import requests
     import sys
 
-    id = sys.argv[1]
-    todo_values = {'userId': id}
-    todo_resp = requests.get('https://jsonplaceholder.typicode.com/todos/',
-                             params=todo_values)
-    user_values = {'id': id}
-    user_resp = requests.get('https://jsonplaceholder.typicode.com/users/',
-                             params=user_values)
-    name = user_resp.json()[0]['name']
-    total = 0
-    done = 0
-    title = []
-    for dictionary in todo_resp.json():
-        if dictionary['completed']:
-            done += 1
-            title.append(dictionary['title'])
-        total += 1
-    print(f'Employee {name} is done with tasks({done}/{total}):')
-    for task in title:
-        print(f'\t {task}')
+    user_id = int(sys.argv[1])
+    name, total, complete = ["", 0, 0]
+    completed_todos = []
+    todo_resp = requests.get("https://jsonplaceholder.typicode.com/todos/")
+    user_resp = requests.get("https://jsonplaceholder.typicode.com/users/")
+
+    for a_dict in user_resp.json():
+        if a_dict["id"] == user_id:
+            name = a_dict["name"]
+            break
+
+    for todo in todo_resp.json():
+        if todo["userId"] == user_id:
+            total += 1
+            if todo["completed"]:
+                complete += 1
+                completed_todos.append(todo["title"])
+
+    print(f'Employee {name} is done with todos({complete}/{total}):')
+    for title in completed_todos:
+        print(f'\t{title}')
