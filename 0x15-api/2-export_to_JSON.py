@@ -6,22 +6,27 @@ if __name__ == "__main__":
     import requests
     import sys
 
-    id = sys.argv[1]
-    todo_values = {'userId': id}
-    todo_resp = requests.get('https://jsonplaceholder.typicode.com/todos/',
-                             params=todo_values)
-    user_values = {'id': id}
-    user_resp = requests.get('https://jsonplaceholder.typicode.com/users/',
-                             params=user_values)
-    name = user_resp.json()[0]['username']
-    json_file = id+'.json'
-    my_dict = {id: []}
-    with open(json_file, 'a') as f:
-        for dic in todo_resp.json():
-            new_dic = {
-                    "task": dic["title"],
-                    "completed": dic["completed"],
-                    "username": name
-                    }
-            my_dict[id].append(new_dic)
-        json.dump(my_dict, f)
+    user_id = int(sys.argv[1])
+    username = ""
+    user_data = {}
+    key = str(user_id)
+    value = []
+    todo_resp = requests.get("https://jsonplaceholder.typicode.com/todos/")
+    user_resp = requests.get("https://jsonplaceholder.typicode.com/users/")
+
+    for a_dict in user_resp.json():
+        if a_dict["id"] == user_id:
+            username = a_dict["username"]
+            break
+
+    for todo in todo_resp.json():
+        if todo["userId"] == user_id:
+            my_dict = {"task": todo["title"],
+                       "completed": todo["completed"],
+                       "username": username
+                       }
+            value.append(my_dict)
+            user_data[key] = value
+    json_file = str(user_id) + '.json'
+    with open(json_file, 'w') as file:
+        json.dump(user_data, file)
