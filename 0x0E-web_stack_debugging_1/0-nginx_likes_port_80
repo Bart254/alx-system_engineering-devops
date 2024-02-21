@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Scripts installs nginx and opens up port 80
 apt-get update
 apt-get -y install nginx
 ufw allow 'Nginx HTTP'
