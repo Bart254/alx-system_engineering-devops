@@ -9,13 +9,14 @@ def top_ten(subreddit):
     """
     url = f'https://www.reddit.com/r/{subreddit}/hot.json'
     agent = {'User-Agent': 'Castro-Python'}
-    params = {'limit': 10}
-    response = requests.get(url, headers=agent, params=params,
-                            allow_redirects=False)
-    if response.status_code != 200:
-        print('None')
-    else:
-        data = response.json()
-        if 'data' in data and 'children' in data['data']:
-            for post in data['data']['children']:
-                print(post['data']['title'])
+    try:
+        response = requests.get(url, headers=agent,
+                                allow_redirects=False)
+        if response.status_code == 200:
+            children = response.json().get('data').get('children')
+            for i in range(10):
+                print(children[i].get('data').get('title'))
+        else:
+            print("None")
+    except Exception:
+        print("None")
