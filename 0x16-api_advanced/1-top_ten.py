@@ -8,21 +8,14 @@ def top_ten(subreddit):
     """Returns top 10 titles in a subreddit
     """
     url = f'https://www.reddit.com/r/{subreddit}/hot.json'
-    agent = {'User-Agent': 'curl/1.0'}
+    agent = {'User-Agent': 'Castro-Python'}
     params = {'limit': 10}
-    try:
-        response = requests.get(url, headers=agent, params=params)
-        response.raise_for_status()
-
-        data = response.json()
-
-        if 'data' in data and 'children' in data['data']:
-            for post in data['data']['children'][:10]:
-                print(post['data']['title'])
-    except requests.RequestException:
+    response = requests.get(url, headers=agent, params=params,
+                            allow_redirects=False)
+    if response.status_code != 200:
         print('None')
-
-
-if __name__ == "__main__":
-    import sys
-    top_ten(sys.argv[1])
+    else:
+        data = response.json()
+        if 'data' in data and 'children' in data['data']:
+            for post in data['data']['children']:
+                print(post['data']['title'])
