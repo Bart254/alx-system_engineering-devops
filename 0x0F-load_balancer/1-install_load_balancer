@@ -1,19 +1,26 @@
 #!/usr/bin/env bash
 #Install HAProxy load balancer for Ubuntu 16.04
-sudo apt-get -y update
-sudo apt-get -y install haproxy
+apt-get update
+apt-get -y install haproxy
+
 #copy the original configuration script
-sudo cp /etc/haproxy/haproxy.cfg haproxy.cfg.orig
+cp /etc/haproxy/haproxy.cfg haproxy.cfg.orig
+
+# Allow HaProxy to be managed by init file
+echo "ENABLED=1" > /etc/default/haproxy
+
 #add a front end block
 line1="frontend alxfrontend"
 line2="bind *:80"
 line3="default_backend alxbackend"
-echo -e "\n\t$line1\n\t\t$line2\n\t\t$line3" | sudo tee -a /etc/haproxy/haproxy.cfg
+echo -e "\n\t$line1\n\t\t$line2\n\t\t$line3" >> /etc/haproxy/haproxy.cfg
+
 # add backend
 line4="backend alxbackend"
 line5="balance roundrobin"
-line6="server web-01 100.25.177.60:80 check"
-line7="server web-02 54.87.205.15:80 check"
-echo -e "\n\t$line4\n\t\t$line5\n\t\t$line6\n\t\t$line7" | sudo tee -a /etc/haproxy/haproxy.cfg
+line6="server web-01 100.25.109.13:80 check"
+line7="server web-02 18.204.13.228:80 check"
+echo -e "\n\t$line4\n\t\t$line5\n\t\t$line6\n\t\t$line7" >> /etc/haproxy/haproxy.cfg
+
 #restart the service
 sudo service haproxy restart
