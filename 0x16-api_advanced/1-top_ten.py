@@ -1,18 +1,19 @@
 #!/usr/bin/python3
-"""queries the Reddit API and prints the titles of the first 10 hot posts
-listed for a given subreddit.
+"""Top ten hot posts
 """
 import requests
 
 
 def top_ten(subreddit):
     """Prints the titles of the first 10 hot posts
+
+    Paramters
+    ---------
+    subreddit: str
+        The subreddit whose top ten posts are to be printed
     """
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) Apple' +
-        'WebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36'
-    }
-    r = requests.get('https://www.reddit.com/r/{:}/hot.json?limit=10'.format(
+    headers = {'User-Agent': 'Castro-Python'}
+    r = requests.get('https://oauth.reddit.com/r/{}/hot.json?limit=10'.format(
         subreddit), headers=headers, allow_redirects=False)
     if r.status_code < 300:
         json = r.json()
