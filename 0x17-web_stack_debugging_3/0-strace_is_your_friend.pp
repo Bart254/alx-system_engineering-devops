@@ -4,7 +4,7 @@ file { '/var/www/html/wp-content/db-error.php':
 
 exec { 'reconfigure_wordpress':
   command => 'sed -i s/phpp/php/g /var/www/html/wp-settings.php',
-  path    => '/usr/local/bin/:/bin/'
+  path    => '/usr/local/bin/:/bin/',
   notify  => Service['apache2']
 }
 
